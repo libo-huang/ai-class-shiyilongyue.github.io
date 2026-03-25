@@ -613,7 +613,7 @@ window.COURSE_DATA = {
              { label: "资料课后上传", note: "等待课程结束上传后更新" },
            ],
       },
-      { week: 8, lessonId: "08", date: "2026-05-20", teacherId: "An",
+      { week: 8, lessonId: "08", date: "2026-04-29", teacherId: "An",
         title: "现代人工智能的基石：感知机与多层感知机",
         summary: "感知机与多层感知机的概念，使用面包板搭建感知机和多层感知机模拟逻辑门。",
         gallery: [
@@ -623,7 +623,7 @@ window.COURSE_DATA = {
            ],
       },
   
-      { week: 9, lessonId: "09", date: "2026-04-22", teacherId: "An",
+      { week: 9, lessonId: "09", date: "2026-05-20", teacherId: "An",
         title: "让机器像人一样学习：人工神经网络",
         summary: "神经网络概念及其训练方法，使用pytorch实现基于全连接神经网络的手写数字识别。",
         gallery: [
