@@ -719,3 +719,181 @@ h3{ font-size: 16px; }
 @media (max-width: 520px){
   .hero-flag-img{ height: 36px; padding: 6px 10px; }
 }
+
+/* ===== ICT 管理员视图 ===== */
+
+.ict-view {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 4px 0;
+}
+
+.ict-section-head { margin-bottom: 4px; }
+
+.ict-heading {
+  font-size: 17px;
+  font-weight: 900;
+  color: #0a2a70;
+  margin: 0 0 14px;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.ict-block {
+  padding: 18px 20px;
+  border-radius: var(--r);
+  border: 1px solid var(--line);
+  background: #fff;
+  box-shadow: var(--shadow);
+}
+
+/* ---- 时间轴 ---- */
+
+.ict-timeline {
+  position: relative;
+  padding-left: 26px;
+  display: flex;
+  flex-direction: column;
+}
+
+.ict-timeline::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: rgba(47,109,255,.18);
+  border-radius: 2px;
+}
+
+.ict-timeline-item {
+  position: relative;
+  padding-bottom: 20px;
+}
+
+.ict-timeline-item:last-child { padding-bottom: 0; }
+
+.ict-timeline-dot {
+  position: absolute;
+  left: -22px;
+  top: 5px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 3px rgba(47,109,255,.22);
+}
+
+.ict-timeline-content { display: flex; flex-direction: column; gap: 3px; }
+
+.ict-timeline-date {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.ict-timeline-title {
+  font-weight: 900;
+  color: #0f1b2d;
+  font-size: 14px;
+}
+
+.ict-timeline-body {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.65;
+  margin-top: 2px;
+  white-space: pre-wrap;
+}
+
+/* ---- 教案表格 ---- */
+
+.ict-table-wrap {
+  overflow-x: auto;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+}
+
+.ict-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.ict-table thead th {
+  background: rgba(47,109,255,.06);
+  color: #0a2a70;
+  font-weight: 900;
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid rgba(47,109,255,.14);
+  white-space: nowrap;
+}
+
+.ict-table tbody tr:hover { background: rgba(47,109,255,.03); }
+
+.ict-plan-row td {
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(15,27,45,.06);
+  vertical-align: middle;
+}
+
+.ict-plan-row:last-child td { border-bottom: none; }
+
+.ict-plan-week { font-weight: 900; color: #0a2a70; white-space: nowrap; }
+.ict-plan-date { color: var(--muted); white-space: nowrap; font-size: 12px; }
+.ict-plan-title { font-weight: 600; }
+.ict-plan-teacher { color: var(--muted); white-space: nowrap; }
+
+.ict-plan-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgba(22,163,74,.10);
+  border: 1px solid rgba(22,163,74,.22);
+  color: #15803d;
+  font-weight: 900;
+  font-size: 12px;
+  text-decoration: none;
+  transition: background .15s;
+}
+.ict-plan-link:hover { background: rgba(22,163,74,.18); }
+
+.ict-plan-missing {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgba(255,176,32,.10);
+  border: 1px solid rgba(255,176,32,.28);
+  color: #92510a;
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.ict-pdf-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 6px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: rgba(47,109,255,.08);
+  border: 1px solid rgba(47,109,255,.22);
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 12px;
+  text-decoration: none;
+  transition: background .15s;
+}
+.ict-pdf-link:hover { background: rgba(47,109,255,.16); }
+
+@media (max-width: 520px) {
+  .ict-block { padding: 14px; }
+  .ict-plan-date { display: none; }
+}

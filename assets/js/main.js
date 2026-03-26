@@ -59,7 +59,7 @@
       const teacherGrid = $("#teacherGrid");
       teacherGrid.innerHTML = Object.values(DATA.teachers).map(t => `
         <a class="teacher-card" href="${teacherPageUrl(t.id)}">
-          <div class="avatar"><img src="${escapeHtml(BASE + t.photo)}" alt="${escapeHtml(t.name)}" /></div>
+          <div class="avatar"><img src="${escapeHtml(BASE + t.photo)}" alt="${escapeHtml(t.name)}" loading="lazy" decoding="async" /></div>
           <div class="teacher-meta">
             <div class="teacher-name">${escapeHtml(t.name)}</div>
             <div class="muted small">${escapeHtml(t.title || "")}</div>
@@ -243,12 +243,12 @@
           ? `<div class="gallery">
               ${gallery.slice(0, 33).map(src => `
                 <a class="gallery-item" href="${escapeHtml(src)}" target="_blank" rel="noopener">
-                  <img src="${escapeHtml(src)}" alt="课堂图片" />
+                  <img src="${escapeHtml(src)}" alt="课堂图片" loading="lazy" decoding="async" />
                 </a>
               `).join("")}
              </div>`
           : `<div class="gallery-empty">
-              <img src="${escapeHtml(BASE + "assets/img/gallery-placeholder.webp")}" alt="placeholder" />
+              <img src="${escapeHtml(BASE + "assets/img/gallery-placeholder.webp")}" alt="placeholder" loading="lazy" />
               <div class="muted small">课后上传课堂图片。</div>
              </div>`;
   
@@ -288,10 +288,15 @@
   
     
     const UNLOCK_KEY = "course_unlocked_v1";
-    const PASSWORD = "longyue";
-  
+    const ICT_KEY    = "course_ict_v1";
+    const _cfg = window.LOCAL_CONFIG || {};
+    const PASSWORD     = _cfg.password    || "longyue";
+    const ICT_PASSWORD = _cfg.ictPassword || "ict";
+
     function isUnlocked() { return localStorage.getItem(UNLOCK_KEY) === "1"; }
-    function setUnlocked(val) { localStorage.setItem(UNLOCK_KEY, val ? "1" : "0"); }
+    function setUnlocked(v) { localStorage.setItem(UNLOCK_KEY, v ? "1" : "0"); }
+    function isIct()      { return localStorage.getItem(ICT_KEY) === "1"; }
+    function setIct(v)    { localStorage.setItem(ICT_KEY, v ? "1" : "0"); }
   
     function downloadsItem(lesson) {
       const t = teacherById(lesson.teacherId);
@@ -335,58 +340,159 @@
       `;
     }
   
+    function renderIctView() {
+      const cfg = window.LOCAL_CONFIG || {};
+      const minutes = cfg.meetingMinutes || [];
+      const plans   = cfg.lessonPlans   || {};
+
+      // 会议纪要时间轴
+      const minutesHtml = minutes.length
+        ? minutes.map(m => `
+            <div class="ict-timeline-item">
+              <div class="ict-timeline-dot"></div>
+              <div class="ict-timeline-content">
+                <div class="ict-timeline-date">${escapeHtml(m.date)}</div>
+                <div class="ict-timeline-title">${escapeHtml(m.title)}</div>
+                ${m.content ? `<div class="ict-timeline-body">${escapeHtml(m.content)}</div>` : ""}
+                ${m.pdfUrl ? `<a class="ict-pdf-link" href="${escapeHtml(m.pdfUrl)}" target="_blank" rel="noopener">查看会议纪要PDF</a>` : ""}
+              </div>
+            </div>
+          `).join("")
+        : `<div class="muted small">暂无会议记录（请在 config.local.js 中填写 meetingMinutes）。</div>`;
+
+      // 教案上传情况
+      const rowsHtml = DATA.lessons.map(lesson => {
+        const t = teacherById(lesson.teacherId);
+        const plan = plans[lesson.lessonId] || {};
+        const hasFile = plan.fileUrl && plan.fileUrl.trim() !== "";
+        const statusCell = hasFile
+          ? `<a class="ict-plan-link" href="${escapeHtml(plan.fileUrl)}" target="_blank" rel="noopener">已上传</a>`
+          : `<span class="ict-plan-missing">未上传</span>`;
+        return `
+          <tr class="ict-plan-row">
+            <td class="ict-plan-week">课 ${lesson.week}</td>
+            <td class="ict-plan-date">${escapeHtml(lesson.date)}</td>
+            <td class="ict-plan-title">${escapeHtml(lesson.title)}</td>
+            <td class="ict-plan-teacher">${escapeHtml(t ? t.name : lesson.teacherId)}</td>
+            <td class="ict-plan-status">${statusCell}</td>
+          </tr>
+        `;
+      }).join("");
+
+      return `
+        <div class="ict-view">
+          <div class="ict-section-head">
+            <span class="badge">ICT 管理员视图</span>
+          </div>
+
+          <section class="ict-block">
+            <h2 class="ict-heading">会议纪要 <span class="muted small">（最新在上）</span></h2>
+            <div class="ict-timeline">
+              ${minutesHtml}
+            </div>
+          </section>
+
+          <section class="ict-block">
+            <h2 class="ict-heading">课案上传情况</h2>
+            <div class="ict-table-wrap">
+              <table class="ict-table">
+                <thead>
+                  <tr>
+                    <th>周次</th>
+                    <th>日期</th>
+                    <th>课程标题</th>
+                    <th>授课老师</th>
+                    <th>课案状态</th>
+                  </tr>
+                </thead>
+                <tbody>${rowsHtml}</tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      `;
+    }
+
     function renderDownloadsPage() {
       const locked = $("#downloadsLocked");
-      const list = $("#downloadsList");
-      const msg = $("#pwdMsg");
-      const input = $("#pwdInput");
-      const btn = $("#pwdBtn");
-      const reset = $("#pwdReset");
+      const list   = $("#downloadsList");
+      const msg    = $("#pwdMsg");
+      const input  = $("#pwdInput");
+      const btn    = $("#pwdBtn");
+      const reset  = $("#pwdReset");
       if (!locked || !list || !msg || !input || !btn || !reset) return;
-  
+
       function refresh() {
+        const searchEl = $("#searchDownload");
+        if (isIct()) {
+          locked.style.display = "none";
+          list.classList.remove("is-hidden");
+          list.innerHTML = renderIctView();
+          if (searchEl) searchEl.style.display = "none";
+          msg.textContent = "ICT 管理员视图已解锁。";
+          return;
+        }
         const ok = isUnlocked();
+        if (searchEl) searchEl.style.display = "";
         locked.style.display = ok ? "none" : "";
         list.classList.toggle("is-hidden", !ok);
-        msg.textContent = ok ? "已解锁：资料列表已显示（已记住本机浏览器）。" : "未解锁：请输入密码显示资料。";
+        msg.textContent = ok
+          ? "已解锁：资料列表已显示（已记住本机浏览器）。"
+          : "未解锁：请输入密码显示资料。";
+        if (ok) {
+          list.innerHTML = DATA.lessons.map(downloadsItem).join("");
+          bindSearch();
+        }
       }
-  
+
+      input.addEventListener("keydown", e => { if (e.key === "Enter") btn.click(); });
+
       btn.addEventListener("click", () => {
         const val = (input.value || "").trim();
-        if (val === PASSWORD) {
+        if (val === ICT_PASSWORD) {
+          setIct(true);
+          setUnlocked(false);
+          input.value = "";
+          refresh();
+        } else if (val === PASSWORD) {
+          setIct(false);
           setUnlocked(true);
           input.value = "";
           refresh();
           autoOpenTarget();
         } else {
-          setUnlocked(false);
           msg.textContent = "密码错误，请重试。";
         }
       });
-  
+
       reset.addEventListener("click", () => {
         setUnlocked(false);
+        setIct(false);
         refresh();
       });
-  
+
       list.innerHTML = DATA.lessons.map(downloadsItem).join("");
-  
-      const search = $("#searchDownload");
-      if (search) {
-        search.addEventListener("input", () => {
-          const q = search.value.trim().toLowerCase();
+      bindSearch();
+
+      function bindSearch() {
+        const el = $("#searchDownload");
+        if (!el) return;
+        const fresh = el.cloneNode(true);
+        el.parentNode.replaceChild(fresh, el);
+        fresh.addEventListener("input", () => {
+          const q = fresh.value.trim().toLowerCase();
           $$(".dl-block").forEach((block) => {
             block.style.display = block.textContent.toLowerCase().includes(q) ? "" : "none";
           });
         });
       }
-  
+
       function autoOpenTarget() {
         const q = getQuery();
         const lessonId = q.lesson;
         const week = q.week;
         let target = null;
-  
+
         if (lessonId) target = $("#dl-" + lessonId);
         if (!target && week) {
           const l = DATA.lessons.find(x => String(x.week) === String(week));
@@ -399,9 +505,9 @@
           setTimeout(() => target.classList.remove("is-highlight"), 1600);
         }
       }
-  
+
       refresh();
-      if (isUnlocked()) autoOpenTarget();
+      if (isUnlocked() && !isIct()) autoOpenTarget();
     }
   
     function boot() {
