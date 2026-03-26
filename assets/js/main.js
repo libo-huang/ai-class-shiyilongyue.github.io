@@ -290,13 +290,41 @@
     const UNLOCK_KEY = "course_unlocked_v1";
     const ICT_KEY    = "course_ict_v1";
     const _cfg = window.LOCAL_CONFIG || {};
-    const PASSWORD     = _cfg.password    || "longyue";
-    const ICT_PASSWORD = _cfg.ictPassword || "ict";
+    const PASSWORD = _cfg.password || "longyue";
 
     function isUnlocked() { return localStorage.getItem(UNLOCK_KEY) === "1"; }
     function setUnlocked(v) { localStorage.setItem(UNLOCK_KEY, v ? "1" : "0"); }
     function isIct()      { return localStorage.getItem(ICT_KEY) === "1"; }
     function setIct(v)    { localStorage.setItem(ICT_KEY, v ? "1" : "0"); }
+
+    // Decrypt meeting minutes using WebCrypto (PBKDF2 + AES-256-GCM)
+    async function decryptIctMeetings(password) {
+      const enc = window.ICT_MEETINGS_ENC;
+      if (!enc) return null;
+      try {
+        const raw  = Uint8Array.from(atob(enc), c => c.charCodeAt(0));
+        const salt = raw.slice(0, 16);
+        const iv   = raw.slice(16, 28);
+        const ct   = raw.slice(28);
+        const km = await crypto.subtle.importKey(
+          "raw", new TextEncoder().encode(password),
+          { name: "PBKDF2" }, false, ["deriveKey"]
+        );
+        const key = await crypto.subtle.deriveKey(
+          { name: "PBKDF2", salt, iterations: 100000, hash: "SHA-256" },
+          km, { name: "AES-GCM", length: 256 }, false, ["decrypt"]
+        );
+        const dec = await crypto.subtle.decrypt({ name: "AES-GCM", iv }, key, ct);
+        return JSON.parse(new TextDecoder().decode(dec));
+      } catch { return null; }
+    }
+
+    // Get decrypted meetings from sessionStorage, fallback to local config
+    function getIctMeetings() {
+      const s = sessionStorage.getItem("ict_meetings_v1");
+      if (s) try { return JSON.parse(s); } catch {}
+      return (_cfg.meetingMinutes || []);
+    }
   
     function downloadsItem(lesson) {
       const t = teacherById(lesson.teacherId);
@@ -341,9 +369,8 @@
     }
   
     function renderIctView() {
-      const cfg = window.LOCAL_CONFIG || {};
-      const minutes = cfg.meetingMinutes || [];
-      const plans   = cfg.lessonPlans   || {};
+      const minutes = getIctMeetings();
+      const plans   = (_cfg.lessonPlans || {});
 
       // 会议纪要时间轴
       const minutesHtml = minutes.length
@@ -358,7 +385,7 @@
               </div>
             </div>
           `).join("")
-        : `<div class="muted small">暂无会议记录（请在 config.local.js 中填写 meetingMinutes）。</div>`;
+        : `<div class="muted small">暂无会议记录。</div>`;
 
       // 教案上传情况
       const rowsHtml = DATA.lessons.map(lesson => {
@@ -447,19 +474,32 @@
 
       input.addEventListener("keydown", e => { if (e.key === "Enter") btn.click(); });
 
-      btn.addEventListener("click", () => {
+      btn.addEventListener("click", async () => {
         const val = (input.value || "").trim();
-        if (val === ICT_PASSWORD) {
-          setIct(true);
-          setUnlocked(false);
-          input.value = "";
-          refresh();
-        } else if (val === PASSWORD) {
+        if (!val) return;
+
+        // Fast path: student password
+        if (val === PASSWORD) {
           setIct(false);
+          sessionStorage.removeItem("ict_meetings_v1");
           setUnlocked(true);
           input.value = "";
           refresh();
           autoOpenTarget();
+          return;
+        }
+
+        // ICT path: try AES-256-GCM decryption
+        btn.disabled = true;
+        msg.textContent = "验证中…";
+        const meetings = await decryptIctMeetings(val);
+        btn.disabled = false;
+        if (meetings !== null) {
+          sessionStorage.setItem("ict_meetings_v1", JSON.stringify(meetings));
+          setIct(true);
+          setUnlocked(false);
+          input.value = "";
+          refresh();
         } else {
           msg.textContent = "密码错误，请重试。";
         }
