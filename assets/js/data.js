@@ -525,7 +525,7 @@ window.COURSE_DATA = {
         ],
         materials: [
              {label: "PDF", url: "assets/pdf/class_1.pdf", note: "演示文档"},
-             {label: "授课视频/照片", url: "https://pan.baidu.com/s/19ECfqv81rot4Er7M7t9JBQ", note: "百度网盘"},
+             {label: "授课视频/照片", url: "https://pan.baidu.com/s/1ZCB2e7yJeoEnAUFTDzgWrw", note: "百度网盘"},
            ],
         // outline: ["导入与课程框架", "关键概念讲解", "示例与答疑"],
         // gallery: [
@@ -557,7 +557,7 @@ window.COURSE_DATA = {
         ],
         materials: [
              {label: "PDF", url: "assets/pdf/class_2.pdf", note: "演示文档"},
-             {label: "授课视频/照片", url: "https://pan.baidu.com/s/1IzmraaROnhcmLgGSK6uSbQ", note: "百度网盘"},
+             {label: "授课视频/照片", url: "https://pan.baidu.com/s/1ZCB2e7yJeoEnAUFTDzgWrw", note: "百度网盘"},
            ],
       },
 
@@ -571,17 +571,21 @@ window.COURSE_DATA = {
         ],
         materials: [
           {label: "PDF", url: "assets/pdf/class_3.pdf", note: "演示文档"},
-          {label: "授课视频/照片", url: "https://pan.baidu.com/s/1xMg5ft2lfC0-8QWaX_H_qQ", note: "百度网盘"},
+          {label: "授课视频/照片", url: "https://pan.baidu.com/s/1ZCB2e7yJeoEnAUFTDzgWrw", note: "百度网盘"},
         ],
       },
       { week: 4, lessonId: "04", date: "2026-03-25", teacherId: "Huang",
         title: "python编程与agent编程",
         summary: "Python 基础语法；编程逻辑与代码实现；简单交互程序开发。",
-        gallery: [
+        gallery: [ "class/4Huang/pic-12.webp", "class/4Huang/pic-11.webp", "class/4Huang/pic-10.webp", 
+          "class/4Huang/pic-9.webp", "class/4Huang/pic-8.webp", "class/4Huang/pic-7.webp", 
+          "class/4Huang/pic-6.webp", "class/4Huang/pic-5.webp", "class/4Huang/pic-4.webp", 
+          "class/4Huang/pic-3.webp", "class/4Huang/pic-2.webp", "class/4Huang/pic-1.webp", 
         ],
         materials: [
-             { label: "资料课后上传", note: "等待课程结束上传后更新" },
-           ],
+          {label: "PDF", url: "assets/pdf/class_4.pdf", note: "演示文档"},
+          {label: "授课视频/照片", url: "https://pan.baidu.com/s/1ZCB2e7yJeoEnAUFTDzgWrw", note: "百度网盘"},
+        ],
       },
   
       { week: 5, lessonId: "05", date: "2026-04-01", teacherId: "Huang",
