@@ -591,10 +591,14 @@ window.COURSE_DATA = {
       { week: 5, lessonId: "05", date: "2026-04-01", teacherId: "Huang",
         title: "python编程与agent编程",
         summary: "Agent 编程基础；分支结构编程；完成数码数字识别任务搭建。",
-        gallery: [
+        gallery: ["class/5Huang/pic-01.webp", "class/5Huang/pic-02.webp", "class/5Huang/pic-03.webp", 
+          "class/5Huang/pic-04.webp", "class/5Huang/pic-05.webp", "class/5Huang/pic-06.webp", 
+          "class/5Huang/pic-07.webp", "class/5Huang/pic-08.webp", "class/5Huang/pic-09.webp", 
+          "class/5Huang/pic-10.webp", "class/5Huang/pic-11.webp", "class/5Huang/pic-12.webp", 
         ],
         materials: [
-             { label: "资料课后上传", note: "等待课程结束上传后更新" },
+            {label: "PDF", url: "assets/pdf/class_5.pdf", note: "演示文档"},
+            {label: "授课视频/照片", url: "https://pan.baidu.com/s/1ZCB2e7yJeoEnAUFTDzgWrw", note: "百度网盘"},
            ],
       },
       
