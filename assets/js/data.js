@@ -524,9 +524,9 @@ window.COURSE_DATA = {
           "class/1Bu/pic-9.webp", 
         ],
         materials: [
-             {label: "PDF", url: "assets/pdf/class_1.pdf", note: "演示文档"},
-             {label: "授课视频/照片", url: "https://pan.baidu.com/s/1ZCB2e7yJeoEnAUFTDzgWrw", note: "百度网盘"},
-           ],
+              {label: "PDF", url: "assets/pdf/class_1.pdf", note: "演示文档"},
+              {label: "授课视频/照片", url: "https://pan.baidu.com/s/1ZCB2e7yJeoEnAUFTDzgWrw", note: "百度网盘"},
+            ],
         // outline: ["导入与课程框架", "关键概念讲解", "示例与答疑"],
         // gallery: [
         //  "assets/img/class/A-01-1.jpg" 或外链
@@ -556,9 +556,9 @@ window.COURSE_DATA = {
           "class/2Sun/pic-7.webp", "class/2Sun/pic-8.webp", "class/2Sun/pic-9.webp", 
         ],
         materials: [
-             {label: "PDF", url: "assets/pdf/class_2.pdf", note: "演示文档"},
-             {label: "授课视频/照片", url: "https://pan.baidu.com/s/1ZCB2e7yJeoEnAUFTDzgWrw", note: "百度网盘"},
-           ],
+              {label: "PDF", url: "assets/pdf/class_2.pdf", note: "演示文档"},
+              {label: "授课视频/照片", url: "https://pan.baidu.com/s/1ZCB2e7yJeoEnAUFTDzgWrw", note: "百度网盘"},
+            ],
       },
 
       { week: 3, lessonId: "03", date: "2026-03-18", teacherId: "Sun",
@@ -599,17 +599,23 @@ window.COURSE_DATA = {
         materials: [
             {label: "PDF", url: "assets/pdf/class_5.pdf", note: "演示文档"},
             {label: "授课视频/照片", url: "https://pan.baidu.com/s/1ZCB2e7yJeoEnAUFTDzgWrw", note: "百度网盘"},
-           ],
+          ],
       },
       
       { week: 6, lessonId: "06", date: "2026-04-08", teacherId: "Dai",
         title: "机器学习启蒙：什么是机器学习",
         summary: "机器学习是什么；数据与特征；如何衡量机器学习的效果；最简单的模型：线性模型。",
-        gallery: [
+        gallery: ["class/6Dai/pic-1.webp", "class/6Dai/pic-2.webp", "class/6Dai/pic-3.webp", 
+          "class/6Dai/pic-4.webp", "class/6Dai/pic-5.webp", "class/6Dai/pic-6.webp", 
+          "class/6Dai/pic-7.webp", "class/6Dai/pic-8.webp", "class/6Dai/pic-9.webp", 
+          "class/6Dai/pic-10.webp", "class/6Dai/pic-11.webp", "class/6Dai/pic-12.webp", 
+          "class/6Dai/pic-13.webp", "class/6Dai/pic-14.webp", "class/6Dai/pic-15.webp",
+          "class/6Dai/pic-17.webp", "class/6Dai/pic-16.webp", "class/6Dai/pic-18.webp",
         ],
         materials: [
-             { label: "资料课后上传", note: "等待课程结束上传后更新" },
-           ],
+            {label: "PDF", url: "assets/pdf/class_6.pdf", note: "演示文档"},
+            {label: "授课视频/照片", url: "https://pan.baidu.com/s/1ZCB2e7yJeoEnAUFTDzgWrw", note: "百度网盘"},
+          ],
       },
   
       { week: 7, lessonId: "07", date: "2026-04-15", teacherId: "Dai",
@@ -618,8 +624,8 @@ window.COURSE_DATA = {
         gallery: [
         ],
         materials: [
-             { label: "资料课后上传", note: "等待课程结束上传后更新" },
-           ],
+              { label: "资料课后上传", note: "等待课程结束上传后更新" },
+            ],
       },
       { week: 8, lessonId: "08", date: "2026-04-29", teacherId: "An",
         title: "现代人工智能的基石：感知机与多层感知机",
@@ -627,8 +633,8 @@ window.COURSE_DATA = {
         gallery: [
         ],
         materials: [
-             { label: "资料课后上传", note: "等待课程结束上传后更新" },
-           ],
+              { label: "资料课后上传", note: "等待课程结束上传后更新" },
+            ],
       },
   
       { week: 9, lessonId: "09", date: "2026-05-20", teacherId: "An",
@@ -637,8 +643,8 @@ window.COURSE_DATA = {
         gallery: [
         ],
         materials: [
-             { label: "资料课后上传", note: "等待课程结束上传后更新" },
-           ],
+              { label: "资料课后上传", note: "等待课程结束上传后更新" },
+            ],
       },
       { week: 10, lessonId: "10", date: "2026-05-27", teacherId: "Xing",
         title: "计算机如何认识图像：深度学习与图像识别",
@@ -646,8 +652,8 @@ window.COURSE_DATA = {
         gallery: [
         ],
         materials: [
-             { label: "资料课后上传", note: "等待课程结束上传后更新" },
-           ],
+              { label: "资料课后上传", note: "等待课程结束上传后更新" },
+            ],
       },
   
       { week: 11, lessonId: "11", date: "2026-06-03", teacherId: "Xing",
@@ -656,8 +662,8 @@ window.COURSE_DATA = {
         gallery: [
         ],
         materials: [
-             { label: "资料课后上传", note: "等待课程结束上传后更新" },
-           ],
+              { label: "资料课后上传", note: "等待课程结束上传后更新" },
+            ],
       },
       { week: 12, lessonId: "12", date: "2026-06-10", teacherId: "Gao",
         title: "数字人技术解析",
@@ -665,8 +671,8 @@ window.COURSE_DATA = {
         gallery: [
         ],
         materials: [
-             { label: "资料课后上传", note: "等待课程结束上传后更新" },
-           ],
+              { label: "资料课后上传", note: "等待课程结束上传后更新" },
+            ],
       },
   
       { week: 13, lessonId: "13", date: "2026-06-17", teacherId: "Gao",
@@ -675,8 +681,8 @@ window.COURSE_DATA = {
         gallery: [
         ],
         materials: [
-             { label: "资料课后上传", note: "等待课程结束上传后更新" },
-           ],
+              { label: "资料课后上传", note: "等待课程结束上传后更新" },
+            ],
       },
       { week: 14, lessonId: "14", date: "2026-06-24", teacherId: "代锋, 孙世伟",
         title: "期末活动",
@@ -684,8 +690,8 @@ window.COURSE_DATA = {
         gallery: [
         ],
         materials: [
-             { label: "资料课后上传", note: "等待课程结束上传后更新" },
-           ],
+              { label: "资料课后上传", note: "等待课程结束上传后更新" },
+            ],
       },
     ],
   };
