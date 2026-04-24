@@ -290,16 +290,14 @@
     const UNLOCK_KEY = "course_unlocked_v1";
     const ICT_KEY    = "course_ict_v1";
     const _cfg = window.LOCAL_CONFIG || {};
-    const PASSWORD = _cfg.password || "longyue";
 
     function isUnlocked() { return localStorage.getItem(UNLOCK_KEY) === "1"; }
     function setUnlocked(v) { localStorage.setItem(UNLOCK_KEY, v ? "1" : "0"); }
     function isIct()      { return localStorage.getItem(ICT_KEY) === "1"; }
     function setIct(v)    { localStorage.setItem(ICT_KEY, v ? "1" : "0"); }
 
-    // Decrypt meeting minutes using WebCrypto (PBKDF2 + AES-256-GCM)
-    async function decryptIctMeetings(password) {
-      const enc = window.ICT_MEETINGS_ENC;
+    // Decrypt encrypted payload using WebCrypto (PBKDF2 + AES-256-GCM)
+    async function decryptPayload(enc, password) {
       if (!enc) return null;
       try {
         const raw  = Uint8Array.from(atob(enc), c => c.charCodeAt(0));
@@ -319,11 +317,36 @@
       } catch { return null; }
     }
 
+    async function decryptDownloadGate(password) {
+      const gate = await decryptPayload(window.DOWNLOAD_GATE_ENC, password);
+      if (!gate || gate.scope !== "downloads" || gate.ok !== true) return null;
+      return gate;
+    }
+
+    function hasDownloadGate() {
+      return typeof window.DOWNLOAD_GATE_ENC === "string" && window.DOWNLOAD_GATE_ENC.length > 0;
+    }
+
+    // Decrypt meeting minutes using WebCrypto (PBKDF2 + AES-256-GCM)
+    async function decryptIctMeetings(password) {
+      return decryptPayload(window.ICT_MEETINGS_ENC, password);
+    }
+
+    async function decryptIctLessonPlans(password) {
+      return decryptPayload(window.ICT_LESSON_PLANS_ENC, password);
+    }
+
     // Get decrypted meetings from sessionStorage, fallback to local config
     function getIctMeetings() {
       const s = sessionStorage.getItem("ict_meetings_v1");
       if (s) try { return JSON.parse(s); } catch {}
       return (_cfg.meetingMinutes || []);
+    }
+
+    function getIctLessonPlans() {
+      const s = sessionStorage.getItem("ict_lesson_plans_v1");
+      if (s) try { return JSON.parse(s); } catch {}
+      return (_cfg.lessonPlans || {});
     }
   
     function downloadsItem(lesson) {
@@ -370,7 +393,7 @@
   
     function renderIctView() {
       const minutes = getIctMeetings();
-      const plans   = (_cfg.lessonPlans || {});
+      const plans   = getIctLessonPlans();
 
       // 会议纪要时间轴
       const minutesHtml = minutes.length
@@ -393,7 +416,7 @@
         const plan = plans[lesson.lessonId] || {};
         const hasFile = plan.fileUrl && plan.fileUrl.trim() !== "";
         const statusCell = hasFile
-          ? `<a class="ict-plan-link" href="${escapeHtml(plan.fileUrl)}" target="_blank" rel="noopener">已上传</a>`
+          ? `<a class="ict-plan-link" href="${escapeHtml(plan.fileUrl)}" download>下载教案</a>`
           : `<span class="ict-plan-missing">未上传</span>`;
         return `
           <tr class="ict-plan-row">
@@ -478,10 +501,15 @@
         const val = (input.value || "").trim();
         if (!val) return;
 
+        msg.textContent = "验证中…";
+        btn.disabled = true;
+
         // Fast path: student password
-        if (val === PASSWORD) {
+        if (await decryptDownloadGate(val)) {
+          btn.disabled = false;
           setIct(false);
           sessionStorage.removeItem("ict_meetings_v1");
+          sessionStorage.removeItem("ict_lesson_plans_v1");
           setUnlocked(true);
           input.value = "";
           refresh();
@@ -490,24 +518,36 @@
         }
 
         // ICT path: try AES-256-GCM decryption
-        btn.disabled = true;
-        msg.textContent = "验证中…";
-        const meetings = await decryptIctMeetings(val);
+        const [meetings, lessonPlans] = await Promise.all([
+          decryptIctMeetings(val),
+          decryptIctLessonPlans(val),
+        ]);
         btn.disabled = false;
-        if (meetings !== null) {
-          sessionStorage.setItem("ict_meetings_v1", JSON.stringify(meetings));
+        if (meetings !== null || lessonPlans !== null) {
+          if (meetings !== null) {
+            sessionStorage.setItem("ict_meetings_v1", JSON.stringify(meetings));
+          } else {
+            sessionStorage.removeItem("ict_meetings_v1");
+          }
+          if (lessonPlans !== null) {
+            sessionStorage.setItem("ict_lesson_plans_v1", JSON.stringify(lessonPlans));
+          } else {
+            sessionStorage.removeItem("ict_lesson_plans_v1");
+          }
           setIct(true);
           setUnlocked(false);
           input.value = "";
           refresh();
         } else {
-          msg.textContent = "密码错误，请重试。";
+          msg.textContent = hasDownloadGate() ? "密码错误，请重试。" : "学生下载区密文未配置。";
         }
       });
 
       reset.addEventListener("click", () => {
         setUnlocked(false);
         setIct(false);
+        sessionStorage.removeItem("ict_meetings_v1");
+        sessionStorage.removeItem("ict_lesson_plans_v1");
         refresh();
       });
 

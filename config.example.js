@@ -3,8 +3,9 @@
 // config.local.js 已被 .gitignore 忽略，不会上传到 GitHub。
 
 window.LOCAL_CONFIG = {
-  // 学生下载密码（在下载页面解锁课程资料）
-  password: "your-downloads-password-here",
+  // 学生下载区密码不再写在这里。
+  // 如需修改，请在本地编辑 generate-download-enc.js 后运行：
+  // node generate-download-enc.js
 
   // ICT 管理员密码（解锁管理员视图：会议纪要 + 教案状态）
   ictPassword: "your-ict-password-here",
@@ -18,9 +19,7 @@ window.LOCAL_CONFIG = {
     // }
   ],
 
-  // 教案上传状态，key 为 lessonId（"01"～"14"，与 data.js 对应）
-  lessonPlans: {
-    // "01": { fileUrl: "https://pan.baidu.com/example", note: "备注" },
-    // "02": { fileUrl: "", note: "" }
-  }
+  // 教案上传状态不再写在这里。
+  // 如需修改，请在本地编辑 generate-ict-plans-enc.js 后运行：
+  // node generate-ict-plans-enc.js
 };
