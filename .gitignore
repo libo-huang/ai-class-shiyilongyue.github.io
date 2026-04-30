@@ -4,3 +4,4 @@ config.local.js
 generate-ict-enc.js
 generate-download-enc.js
 generate-ict-plans-enc.js
+assets/edu/*.zip
