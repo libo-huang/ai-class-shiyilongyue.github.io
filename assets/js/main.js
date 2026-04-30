@@ -414,9 +414,22 @@
       const rowsHtml = DATA.lessons.map(lesson => {
         const t = teacherById(lesson.teacherId);
         const plan = plans[lesson.lessonId] || {};
-        const hasFile = plan.fileUrl && plan.fileUrl.trim() !== "";
+        const planFileUrl = String(plan.fileUrl || "").trim();
+        const hasFile = planFileUrl !== "";
+        let planLinkAttrs = "";
+        if (hasFile) {
+          const safeHref = escapeHtml(planFileUrl);
+          try {
+            const planUrl = new URL(planFileUrl, window.location.href);
+            planLinkAttrs = planUrl.origin === window.location.origin
+              ? `href="${safeHref}" download`
+              : `href="${safeHref}" target="_blank" rel="noopener"`;
+          } catch {
+            planLinkAttrs = `href="${safeHref}" target="_blank" rel="noopener"`;
+          }
+        }
         const statusCell = hasFile
-          ? `<a class="ict-plan-link" href="${escapeHtml(plan.fileUrl)}" download>下载教案</a>`
+          ? `<a class="ict-plan-link" ${planLinkAttrs}>下载教案</a>`
           : `<span class="ict-plan-missing">未上传</span>`;
         return `
           <tr class="ict-plan-row">
