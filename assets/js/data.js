@@ -614,7 +614,7 @@ window.COURSE_DATA = {
         ],
         materials: [
             {label: "PDF", url: "assets/pdf/class_6.pdf", note: "演示文档"},
-            {label: "授课视频/照片（ZIP）", url: "https://github.com/ai-class-shiyilongyue/ai-class-shiyilongyue.github.io/releases/download/class-materials-20260430/Lesson06_20260408_classification.zip", note: "GitHub 直链下载"},
+            {label: "授课视频/照片", url: "https://pan.baidu.com/s/1ZCB2e7yJeoEnAUFTDzgWrw", note: "百度网盘"},
           ],
       },
   
@@ -630,7 +630,7 @@ window.COURSE_DATA = {
         ],
         materials: [
             {label: "PDF", url: "assets/pdf/class_7.pdf", note: "演示文档"},
-            {label: "授课视频/照片（ZIP）", url: "https://github.com/ai-class-shiyilongyue/ai-class-shiyilongyue.github.io/releases/download/class-materials-20260430/Lesson07_20260415_regression.zip", note: "GitHub 直链下载"},
+            {label: "授课视频/照片", url: "https://pan.baidu.com/s/1ZCB2e7yJeoEnAUFTDzgWrw", note: "百度网盘"},
           ],
       },
       { week: 8, lessonId: "08", date: "2026-04-29", teacherId: "An",
