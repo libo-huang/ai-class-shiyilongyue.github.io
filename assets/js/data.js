@@ -636,10 +636,17 @@ window.COURSE_DATA = {
       { week: 8, lessonId: "08", date: "2026-04-29", teacherId: "An",
         title: "现代人工智能的基石：感知机与多层感知机",
         summary: "感知机与多层感知机的概念，使用面包板搭建感知机和多层感知机模拟逻辑门。",
-        gallery: [
+        gallery: ["class/8An/pic-1.webp", "class/8An/pic-2.webp", "class/8An/pic-3.webp", 
+          "class/8An/pic-4.webp", "class/8An/pic-5.webp", "class/8An/pic-6.webp", 
+          "class/8An/pic-7.webp", "class/8An/pic-8.webp", "class/8An/pic-9.webp", 
+          "class/8An/pic-10.webp", "class/8An/pic-11.webp", "class/8An/pic-12.webp", 
+          "class/8An/pic-13.webp", "class/8An/pic-14.webp", "class/8An/pic-15.webp",
+          "class/8An/pic-16.webp", "class/8An/pic-17.webp", "class/8An/pic-18.webp",
+          "class/8An/pic-21.webp", "class/8An/pic-20.webp", "class/8An/pic-19.webp",
         ],
         materials: [
-              { label: "资料课后上传", note: "等待课程结束上传后更新" },
+              {label: "PDF", url: "assets/pdf/class_8.pdf", note: "演示文档"},
+            {label: "授课视频/照片", url: "https://pan.baidu.com/s/1ZCB2e7yJeoEnAUFTDzgWrw", note: "百度网盘"},
             ],
       },
   
