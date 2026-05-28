@@ -638,14 +638,13 @@ window.COURSE_DATA = {
         summary: "感知机与多层感知机的概念。",
         gallery: ["class/8An/pic-1.webp", "class/8An/pic-2.webp", "class/8An/pic-3.webp", 
           "class/8An/pic-4.webp", "class/8An/pic-5.webp", "class/8An/pic-6.webp", 
-          "class/8An/pic-7.webp", "class/8An/pic-8.webp", "class/8An/pic-9.webp", 
           "class/8An/pic-10.webp", "class/8An/pic-11.webp", "class/8An/pic-12.webp", 
           "class/8An/pic-13.webp", "class/8An/pic-14.webp", "class/8An/pic-15.webp",
           "class/8An/pic-16.webp", "class/8An/pic-17.webp", "class/8An/pic-18.webp",
           "class/8An/pic-21.webp", "class/8An/pic-20.webp", "class/8An/pic-19.webp",
         ],
         materials: [
-              {label: "PDF", url: "assets/pdf/class_8.pdf", note: "演示文档"},
+            {label: "PDF", url: "assets/pdf/class_8.pdf", note: "演示文档"},
             {label: "授课视频/照片", url: "https://pan.baidu.com/s/1ZCB2e7yJeoEnAUFTDzgWrw", note: "百度网盘"},
             ],
       },
@@ -660,17 +659,21 @@ window.COURSE_DATA = {
           "class/9An/pic-13.webp", "class/9An/pic-14.webp", "class/9An/pic-15.webp"
         ],
         materials: [
-              {label: "PDF", url: "assets/pdf/class_9.pdf", note: "演示文档"},
+            {label: "PDF", url: "assets/pdf/class_9.pdf", note: "演示文档"},
             {label: "授课视频/照片", url: "https://pan.baidu.com/s/1ZCB2e7yJeoEnAUFTDzgWrw", note: "百度网盘"},
             ],
       },
       { week: 10, lessonId: "10", date: "2026-05-27", teacherId: "Xing",
         title: "计算机如何认识图像：深度学习与图像识别",
         summary: "卷积神经网络（CNN）原理与结构；使用pytorch实现基于CNN的手写数字识别；模型对比分析。",
-        gallery: [
+        gallery: ["class/10Xing/pic-1.webp", "class/10Xing/pic-2.webp", "class/10Xing/pic-3.webp",
+          "class/10Xing/pic-4.webp", "class/10Xing/pic-5.webp", "class/10Xing/pic-6.webp",
+          "class/10Xing/pic-7.webp", "class/10Xing/pic-8.webp", "class/10Xing/pic-9.webp",
+          "class/10Xing/pic-10.webp", "class/10Xing/pic-11.webp", "class/10Xing/pic-12.webp"
         ],
         materials: [
-              { label: "资料课后上传", note: "等待课程结束上传后更新" },
+            {label: "PDF", url: "assets/pdf/class_10.pdf", note: "演示文档"},
+            {label: "授课视频/照片", url: "https://pan.baidu.com/s/1ZCB2e7yJeoEnAUFTDzgWrw", note: "百度网盘"},
             ],
       },
   
